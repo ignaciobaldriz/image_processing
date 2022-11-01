@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import randint
+from zipfile import ZipFile
 
 # Image processing packages
 from skimage import io, color
@@ -36,11 +37,15 @@ df = pd.read_csv('signatures_data.csv', index_col=0) # Open the data frame with 
 print(df.head())
 print(df.shape)
 
+with ZipFile('images.zip', 'r') as zipObj:
+   # Extract all the contents of zip file in current directory
+   zipObj.extractall()
+
 # Get the image of the row id name (the image has to be stored in the directory), return it as an array
 
 # FUNCTION 1
 def get_image(row_id):
-    filename = "{}.jpeg".format(row_id)
+    filename = "./images/{}.jpeg".format(row_id)
     img = io.imread(filename)
     img = resize(img, (200,200), anti_aliasing=True) # resize image
     return np.array(img)
